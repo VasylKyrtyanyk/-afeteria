@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Сafeteria.Services;
 
 namespace Сafeteria.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class MenusController: ControllerBase
     {
-        public MenusController()
+        private readonly IUnitOfWork _unitOfWork;
+        public MenusController(IUnitOfWork unitOfWork)
         {
-
+            _unitOfWork = unitOfWork;
         }
     }
 }

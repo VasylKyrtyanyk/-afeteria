@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Сafeteria.Services;
 
 namespace Сafeteria.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UsersController: ControllerBase
     {
-        public UsersController()
+        private readonly IUnitOfWork _unitOfWork;
+        public UsersController(IUnitOfWork unitOfWork)
         {
-
+            _unitOfWork = unitOfWork;
         }
     }
 }

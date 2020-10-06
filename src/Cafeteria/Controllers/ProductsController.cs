@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Сafeteria.Services;
 
 namespace Сafeteria.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProductsController: ControllerBase
     {
-        public ProductsController()
+        private readonly IUnitOfWork _unitOfWork;
+        public ProductsController(IUnitOfWork unitOfWork)
         {
-
+            _unitOfWork = unitOfWork;
         }
     }
 }

@@ -4,6 +4,8 @@ using Сafeteria.Services;
 
 namespace Сafeteria.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class OrdersController: ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
