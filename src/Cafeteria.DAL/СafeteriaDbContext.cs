@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Cafeteria.DAL.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Сafeteria.DataModels.Entities;
 
 namespace Cafeteria.DAL
@@ -35,6 +36,21 @@ namespace Cafeteria.DAL
                 .HasOne(pm => pm.Product)
                 .WithMany(m => m.ProductMenus)
                 .HasForeignKey(sc => sc.ProductId);
+
+            modelBuilder.Entity<ProductOrder>()
+                .HasKey(po => new { po.OrderId, po.ProductId });
+
+            modelBuilder.Entity<ProductOrder>()
+            .HasOne(po => po.Order)
+            .WithMany(p => p.ProductOrders)
+            .HasForeignKey(sc => sc.OrderId);
+
+            modelBuilder.Entity<ProductOrder>()
+                .HasOne(po => po.Product)
+                .WithMany(o => o.ProductOrders)
+                .HasForeignKey(sc => sc.ProductId);
+
+            modelBuilder.SeedData();
         }
     }
 }

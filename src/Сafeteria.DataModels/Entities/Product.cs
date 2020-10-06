@@ -11,10 +11,11 @@ namespace Сafeteria.DataModels.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public DateTime FinalDate { get; set; }
+        public DateTime? FinalDate { get; set; }
         public double Weight { get; set; }
         public ProductCategory ProductCategory { get; set; }
         public List<ProductMenu> ProductMenus { get; set; }
+        public List<ProductOrder> ProductOrders { get; set; }
         //TODO add Url to store images
     }
 }

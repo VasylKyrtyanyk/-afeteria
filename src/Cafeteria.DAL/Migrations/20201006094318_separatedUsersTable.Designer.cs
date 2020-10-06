@@ -4,14 +4,16 @@ using Cafeteria.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cafeteria.DAL.Migrations
 {
     [DbContext(typeof(CafeteriaDbContext))]
-    partial class CafeteriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201006094318_separatedUsersTable")]
+    partial class separatedUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,12 +39,12 @@ namespace Cafeteria.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            MenuDate = new DateTime(2020, 10, 7, 14, 23, 21, 422, DateTimeKind.Local).AddTicks(1305)
+                            MenuDate = new DateTime(2020, 10, 7, 12, 43, 18, 228, DateTimeKind.Local).AddTicks(8115)
                         },
                         new
                         {
                             Id = 2,
-                            MenuDate = new DateTime(2020, 10, 8, 14, 23, 21, 422, DateTimeKind.Local).AddTicks(2334)
+                            MenuDate = new DateTime(2020, 10, 8, 12, 43, 18, 228, DateTimeKind.Local).AddTicks(8840)
                         });
                 });
 
@@ -84,7 +86,7 @@ namespace Cafeteria.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2020, 10, 6, 14, 23, 21, 428, DateTimeKind.Local).AddTicks(6121),
+                            CreatedDate = new DateTime(2020, 10, 6, 12, 43, 18, 235, DateTimeKind.Local).AddTicks(60),
                             IsTakeAway = false,
                             OrderStatus = 0,
                             PaymentType = 0,
@@ -94,17 +96,7 @@ namespace Cafeteria.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2020, 10, 6, 14, 23, 21, 428, DateTimeKind.Local).AddTicks(9993),
-                            IsTakeAway = true,
-                            OrderStatus = 0,
-                            PaymentType = 2,
-                            TotalSum = 155.5m,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedDate = new DateTime(2020, 10, 6, 14, 23, 21, 429, DateTimeKind.Local).AddTicks(119),
+                            CreatedDate = new DateTime(2020, 10, 6, 12, 43, 18, 235, DateTimeKind.Local).AddTicks(4270),
                             IsTakeAway = true,
                             OrderStatus = 0,
                             PaymentType = 1,
@@ -147,7 +139,7 @@ namespace Cafeteria.DAL.Migrations
                         {
                             Id = 1,
                             Description = "bla bla bla",
-                            FinalDate = new DateTime(2020, 10, 8, 14, 23, 21, 416, DateTimeKind.Local).AddTicks(2968),
+                            FinalDate = new DateTime(2020, 10, 8, 12, 43, 18, 224, DateTimeKind.Local).AddTicks(8095),
                             Name = "Borscht",
                             Price = 30.0m,
                             ProductCategory = 3,
@@ -157,7 +149,7 @@ namespace Cafeteria.DAL.Migrations
                         {
                             Id = 2,
                             Description = "bla bla bla",
-                            FinalDate = new DateTime(2020, 10, 11, 14, 23, 21, 421, DateTimeKind.Local).AddTicks(9178),
+                            FinalDate = new DateTime(2020, 10, 11, 12, 43, 18, 228, DateTimeKind.Local).AddTicks(6742),
                             Name = "Varenyky",
                             Price = 25.0m,
                             ProductCategory = 3,
@@ -304,19 +296,17 @@ namespace Cafeteria.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            Balance = 1110.0m,
+                            Balance = 0m,
                             DateOfBirth = new DateTime(1999, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Andrii",
-                            LastName = "Virt",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Balance = 1110.0m,
+                            Balance = 0m,
                             DateOfBirth = new DateTime(1998, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Vasyl",
-                            LastName = "Samuliak",
                             UserId = 2
                         });
                 });

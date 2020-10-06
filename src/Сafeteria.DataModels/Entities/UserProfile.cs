@@ -9,7 +9,6 @@ namespace Сafeteria.DataModels.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public UserType UserType { get; set; }
         public decimal Balance { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
