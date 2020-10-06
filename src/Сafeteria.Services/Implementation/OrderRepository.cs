@@ -19,7 +19,7 @@ namespace Сafeteria.Services.Implementation
         {
             return await _dbContext.Orders
                 .Include(o => o.User)
-                .Include(o => o.User.Profile)// Optional
+                .ThenInclude(u => u.Profile)// Optional
                 .Where(o => o.UserId == userId).ToListAsync();
         }
     }

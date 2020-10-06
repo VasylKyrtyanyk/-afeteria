@@ -53,7 +53,7 @@ namespace Сafeteria.Controllers
         }
 
         [HttpDelete]
-        [Route("{orderId")]
+        [Route("{orderId}")]
         public async Task<IActionResult> Delete([FromRoute] int orderId)
         {
             var orderResult = await _unitOfWork.OrderRepository.Get(orderId);
