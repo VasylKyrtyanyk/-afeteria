@@ -13,7 +13,7 @@ namespace Cafeteria.DAL
             var optionsBuilder = new DbContextOptionsBuilder<CafeteriaDbContext>();
 
             ConfigurationBuilder builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory());
+            builder.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
             builder.AddJsonFile("appsettings.json");
             IConfigurationRoot config = builder.Build();
 

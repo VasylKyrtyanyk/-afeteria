@@ -12,7 +12,7 @@ namespace Cafeteria.DAL
         public CafeteriaDbContext(DbContextOptions<CafeteriaDbContext> dbContextOptions)
             :base(dbContextOptions)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         public DbSet<User> Users { get; set; }
