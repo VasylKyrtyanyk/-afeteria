@@ -1,11 +1,13 @@
+using Cafeteria.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO;
+using Сafeteria.Services;
 
 namespace Сafeteria
 {
@@ -21,7 +23,12 @@ namespace Сafeteria
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = GetConnectionString();
             services.AddControllersWithViews();
+
+            services
+              .AddDbContext<CafeteriaDbContext>(options => options.UseSqlServer(connectionString))
+              .AddScoped<IUnitOfWork, UnitOfWork>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -66,6 +73,21 @@ namespace Сafeteria
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+        }
+
+        private string GetConnectionString()
+        {
+            var builder = new ConfigurationBuilder();
+
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+
+            builder.AddJsonFile("appsettings.json");
+
+            var config = builder.Build();
+
+            string connectionString = config.GetConnectionString("DefaultConnection");
+
+            return connectionString;
         }
     }
 }
