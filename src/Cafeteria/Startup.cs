@@ -1,3 +1,4 @@
+using System;
 using Cafeteria.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using Microsoft.OpenApi.Models;
 using Сafeteria.Services;
 
 namespace Сafeteria
@@ -25,6 +27,28 @@ namespace Сafeteria
         {
             var connectionString = GetConnectionString();
             services.AddControllersWithViews();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "ToDo API",
+                    Description = "A simple example ASP.NET Core Web API",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Nicky Liu",
+                        Email = "nicky@zedotech.com",
+                        Url = new Uri("https://www.zedotech.com"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://example.com/license"),
+                    }
+                });
+            });
 
             services
               .AddDbContext<CafeteriaDbContext>(options => options.UseSqlServer(connectionString))
@@ -51,9 +75,16 @@ namespace Сafeteria
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseRouting();
 
