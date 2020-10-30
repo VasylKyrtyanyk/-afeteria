@@ -8,8 +8,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Text;
+using AutoMapper;
+using Infrastructure.Abstraction;
+using Infrastructure.Implementation;
+using Infrastructure.MappingProfiles;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Сafeteria.Services;
+using Сafeteria.Services.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Сafeteria
 {
@@ -25,6 +33,7 @@ namespace Сafeteria
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             var connectionString = GetConnectionString();
             services.AddControllersWithViews();
 
@@ -52,7 +61,33 @@ namespace Сafeteria
 
             services
               .AddDbContext<CafeteriaDbContext>(options => options.UseSqlServer(connectionString))
-              .AddScoped<IUnitOfWork, UnitOfWork>();
+              .AddScoped<IUnitOfWork, UnitOfWork>()
+              .AddScoped<IUserService, UserService>()
+              .AddAutoMapper(configuration => configuration.AddProfile<UserProfile>());
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -81,12 +116,20 @@ namespace Сafeteria
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
             app.UseRouting();
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
