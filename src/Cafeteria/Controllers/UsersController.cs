@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Infrastructure.Abstraction;
-using Infrastructure.ModelsDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Сafeteria.DataModels.Entities;
+using Сafeteria.Infrastructure.Abstraction;
+using Сafeteria.Infrastructure.ModelsDTO;
 
 namespace Сafeteria.Controllers
 {

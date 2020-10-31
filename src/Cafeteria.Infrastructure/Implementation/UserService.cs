@@ -5,16 +5,16 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Infrastructure.Abstraction;
-using Infrastructure.ModelsDTO;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Сafeteria.DataModels.Entities;
+using Сafeteria.Infrastructure.Abstraction;
+using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
 using Сafeteria.Services.Helpers;
 using BC = BCrypt.Net.BCrypt;
 
-namespace Infrastructure.Implementation
+namespace Сafeteria.Infrastructure.Implementation
 {
     public class UserService : IUserService
     {

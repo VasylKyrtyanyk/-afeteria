@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Infrastructure.ModelsDTO;
+using Сafeteria.Infrastructure.ModelsDTO;
 
-namespace Infrastructure.Abstraction
+namespace Сafeteria.Infrastructure.Abstraction
 {
     public interface IUserService
     {

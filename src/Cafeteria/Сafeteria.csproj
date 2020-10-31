@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cafeteria.DAL\Cafeteria.DAL.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Cafeteria.Infrastructure\Сafeteria.Infrastructure.csproj" />
     <ProjectReference Include="..\Сafeteria.Services\Сafeteria.Services.csproj" />
   </ItemGroup>
 
