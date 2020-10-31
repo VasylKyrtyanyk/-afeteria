@@ -42,20 +42,8 @@ namespace Сafeteria
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "ToDo API",
-                    Description = "A simple example ASP.NET Core Web API",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Nicky Liu",
-                        Email = "nicky@zedotech.com",
-                        Url = new Uri("https://www.zedotech.com"),
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Use under LICX",
-                        Url = new Uri("https://example.com/license"),
-                    }
+                    Title = "Сafeteria API",
+                    Description = "A simple example ASP.NET Core Web Сafeteria API",
                 });
             });
 
@@ -116,10 +104,9 @@ namespace Сafeteria
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Сafeteria API V1");
             });
 
             app.UseRouting();

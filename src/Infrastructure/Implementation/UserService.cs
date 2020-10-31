@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -56,7 +55,7 @@ namespace Infrastructure.Implementation
             return _mapper.Map<User, UserDTO>(user);
         }
 
-        public async Task<bool> Authorization(UserDTO user)
+        public async Task<bool> Register(UserDTO user)
         {
             // hash password
             user.Password = BC.HashPassword(user.Password);
