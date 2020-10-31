@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Сafeteria.DataModels.Entities;
 using Сafeteria.DataModels.Entities.ValueObjects;
 
 namespace Infrastructure.ModelsDTO
