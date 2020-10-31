@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafeteria.DAL", "src\Cafete
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Сafeteria.Services", "src\Сafeteria.Services\Сafeteria.Services.csproj", "{7D726676-FF70-46D0-A46D-E54F74788145}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{41CFE2A4-3AD0-4BD0-8A46-9B8AB58B81E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Сafeteria.Infrastructure", "src\Cafeteria.Infrastructure\Сafeteria.Infrastructure.csproj", "{41CFE2A4-3AD0-4BD0-8A46-9B8AB58B81E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

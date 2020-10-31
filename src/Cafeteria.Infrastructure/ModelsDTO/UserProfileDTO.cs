@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.ModelsDTO
+namespace Сafeteria.Infrastructure.ModelsDTO
 {
     public class UserProfileDTO
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Сafeteria.DataModels.Entities.ValueObjects;
 
-namespace Infrastructure.ModelsDTO
+namespace Сafeteria.Infrastructure.ModelsDTO
 {
     public class UserDTO
     {

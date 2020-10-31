@@ -10,14 +10,14 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Text;
 using AutoMapper;
-using Infrastructure.Abstraction;
-using Infrastructure.Implementation;
-using Infrastructure.MappingProfiles;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Сafeteria.Services;
 using Сafeteria.Services.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Сafeteria.Infrastructure.Implementation;
+using Сafeteria.Infrastructure.Abstraction;
+using Сafeteria.Infrastructure.MappingProfiles;
 
 namespace Сafeteria
 {
