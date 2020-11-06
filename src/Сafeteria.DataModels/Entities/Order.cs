@@ -5,7 +5,7 @@ using Сafeteria.DataModels.Entities.ValueObjects;
 
 namespace Сafeteria.DataModels.Entities
 {
-    public class Order: IEntity<int>
+    public class Order : IEntity<int>
     {
         public int Id { get; set; }
         public int UserId { get; set; }

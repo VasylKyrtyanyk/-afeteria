@@ -11,7 +11,7 @@ namespace Cafeteria.DAL
 
         }
         public CafeteriaDbContext(DbContextOptions<CafeteriaDbContext> dbContextOptions)
-            :base(dbContextOptions)
+            : base(dbContextOptions)
         {
             //Database.EnsureCreated();
         }
