@@ -35,7 +35,8 @@ namespace Сafeteria
         {
             services.AddCors();
             var connectionString = GetConnectionString();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                                  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
@@ -51,7 +52,10 @@ namespace Сafeteria
               .AddDbContext<CafeteriaDbContext>(options => options.UseSqlServer(connectionString))
               .AddScoped<IUnitOfWork, UnitOfWork>()
               .AddScoped<IUserService, UserService>()
-              .AddAutoMapper(configuration => configuration.AddProfile<UserProfile>());
+              .AddScoped<IOrderService, OrderService>()
+              .AddScoped<IMenuService, MenuService>()
+              .AddScoped<IProductService, ProductService>()
+              .AddAutoMapper(configuration => configuration.AddProfile<MappingProfile>());
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
