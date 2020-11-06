@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Сafeteria", "src\Cafeteria
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Сafeteria.DataModels", "src\Сafeteria.DataModels\Сafeteria.DataModels.csproj", "{C740607C-4F17-4025-A0DB-7FFED094BCAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafeteria.DAL", "src\Cafeteria.DAL\Cafeteria.DAL.csproj", "{E37D5BEC-74D3-4832-8C23-4D69FB32ABEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafeteria.DAL", "src\Cafeteria.DAL\Cafeteria.DAL.csproj", "{E37D5BEC-74D3-4832-8C23-4D69FB32ABEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Сafeteria.Services", "src\Сafeteria.Services\Сafeteria.Services.csproj", "{7D726676-FF70-46D0-A46D-E54F74788145}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Сafeteria.Services", "src\Сafeteria.Services\Сafeteria.Services.csproj", "{7D726676-FF70-46D0-A46D-E54F74788145}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Сafeteria.Infrastructure", "src\Cafeteria.Infrastructure\Сafeteria.Infrastructure.csproj", "{41CFE2A4-3AD0-4BD0-8A46-9B8AB58B81E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7D726676-FF70-46D0-A46D-E54F74788145}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D726676-FF70-46D0-A46D-E54F74788145}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D726676-FF70-46D0-A46D-E54F74788145}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41CFE2A4-3AD0-4BD0-8A46-9B8AB58B81E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41CFE2A4-3AD0-4BD0-8A46-9B8AB58B81E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41CFE2A4-3AD0-4BD0-8A46-9B8AB58B81E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41CFE2A4-3AD0-4BD0-8A46-9B8AB58B81E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

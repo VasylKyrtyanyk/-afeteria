@@ -8,6 +8,7 @@ namespace Сafeteria.Controllers
     public class MenusController: ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+
         public MenusController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

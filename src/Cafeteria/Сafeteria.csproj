@@ -10,6 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions" Version="2.1.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
       <PrivateAssets>all</PrivateAssets>
@@ -27,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cafeteria.DAL\Cafeteria.DAL.csproj" />
+    <ProjectReference Include="..\Cafeteria.Infrastructure\Сafeteria.Infrastructure.csproj" />
     <ProjectReference Include="..\Сafeteria.Services\Сafeteria.Services.csproj" />
   </ItemGroup>
 
