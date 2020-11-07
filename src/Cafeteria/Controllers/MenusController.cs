@@ -1,17 +1,66 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Сafeteria.Services;
+using System.Threading.Tasks;
+using Сafeteria.Infrastructure.Abstraction;
+using Сafeteria.Infrastructure.Commands;
 
 namespace Сafeteria.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MenusController: ControllerBase
+    public class MenusController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMenuService _menuService;
 
-        public MenusController(IUnitOfWork unitOfWork)
+        public MenusController(IMenuService menuService)
         {
-            _unitOfWork = unitOfWork;
+            _menuService = menuService;
+        }
+
+        [HttpGet]
+        [Route("{menuId}")]
+        public async Task<IActionResult> Get(int menuId)
+        {
+            var result = await _menuService.GetByID(menuId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _menuService.GetAll();
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddMenuCommand menu)
+        {
+            var result = await _menuService.Add(menu);
+
+            return CreatedAtAction(nameof(Add), result);
+        }
+
+        [HttpDelete]
+        [Route("{menuId}")]
+        public async Task<IActionResult> Delete([FromRoute] int menuId)
+        {
+            var menuResult = await _menuService.DeleteById(menuId);
+
+            if (menuResult != true)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
     }
 }

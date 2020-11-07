@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Сafeteria.DataModels.Entities;
@@ -21,11 +22,13 @@ namespace Сafeteria.Infrastructure.Implementation
         private readonly IUnitOfWork _unitOfWork;
         private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
-        public UserService(IUnitOfWork unitOfWork, IOptions<AppSettings> appSettings, IMapper mapper)
+        private readonly ILogger<UserService> _logger;
+        public UserService(IUnitOfWork unitOfWork, IOptions<AppSettings> appSettings, IMapper mapper, ILogger<UserService> logger)
         {
             _unitOfWork = unitOfWork;
             _appSettings = appSettings.Value;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<UserDTO> Authenticate(string email, string password)
@@ -34,7 +37,10 @@ namespace Сafeteria.Infrastructure.Implementation
 
             // return null if user not found
             if (user == null)
+            {
                 return null;
+            }
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor

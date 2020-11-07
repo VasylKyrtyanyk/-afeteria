@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Сafeteria.DataModels.Entities.Abstraction;
 
-namespace Сafeteria.DataModels.Entities
+namespace Сafeteria.Infrastructure.ModelsDTO
 {
-    public class Menu : IEntity<int>
+    public class MenuDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime MenuDate { get; set; }
-        public List<ProductMenu> ProductMenus { get; set; }
+        public List<ProductMenuDTO> ProductMenus { get; set; }
     }
 }

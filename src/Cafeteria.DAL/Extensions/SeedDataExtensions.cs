@@ -35,12 +35,14 @@ namespace Cafeteria.DAL.Extensions
             var menu1 = new Menu
             {
                 Id = 1,
+                Name = "Some name",
                 MenuDate = DateTime.Now.AddDays(1)
             };
 
             var menu2 = new Menu
             {
                 Id = 2,
+                Name = "Some name",
                 MenuDate = DateTime.Now.AddDays(2)
             };
 
@@ -63,21 +65,24 @@ namespace Cafeteria.DAL.Extensions
             modelBuilder.Entity<User>(entity => entity
            .HasData(new List<User> { user1, user2 }));
 
-            var userProfile1 = new UserProfile {
+            var userProfile1 = new UserProfile
+            {
                 Id = 1,
                 DateOfBirth = new DateTime(1999, 11, 5),
                 FirstName = "Andrii",
                 LastName = "Virt",
                 Balance = 1110.0m,
-                UserId = user1.Id 
+                UserId = user1.Id
             };
-            var userProfile2 = new UserProfile {
+            var userProfile2 = new UserProfile
+            {
                 Id = 2,
                 DateOfBirth = new DateTime(1998, 3, 21),
                 FirstName = "Vasyl",
                 LastName = "Samuliak",
                 Balance = 1110.0m,
-                UserId = user2.Id };
+                UserId = user2.Id
+            };
 
             modelBuilder.Entity<Product>(entity => entity
            .HasData(new List<Product> { product1, product2 }));
@@ -111,7 +116,7 @@ namespace Cafeteria.DAL.Extensions
                         PaymentType = PaymentType.Cash,
                         OrderStatus = OrderStatus.Created,
                         TotalSum = 105.5m,
-                        CompletedDate = null          
+                        CompletedDate = null
                     },
                     new Order
                     {
@@ -122,7 +127,7 @@ namespace Cafeteria.DAL.Extensions
                         PaymentType = PaymentType.DebitCard,
                         OrderStatus = OrderStatus.Created,
                         TotalSum = 155.5m,
-                        CompletedDate = null                       
+                        CompletedDate = null
                     },
                      new Order
                      {
