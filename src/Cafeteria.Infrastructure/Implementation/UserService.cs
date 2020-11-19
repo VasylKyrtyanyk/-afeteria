@@ -31,6 +31,17 @@ namespace Сafeteria.Infrastructure.Implementation
             _logger = logger;
         }
 
+        public async Task<UserDTO> GetById(int userId)
+        {
+            var user = await _unitOfWork.UserRepository.Get(userId);
+
+            if (user == null)
+            {
+                _logger.LogError($"Couldn't get user from the data base. UserId: {userId}");
+            }
+
+            return _mapper.Map<UserDTO>(user);
+        }
         public async Task<UserDTO> Authenticate(string email, string password)
         {
             var user = (await _unitOfWork.UserRepository.GetAll()).SingleOrDefault(x => x.Email == email && BC.Verify(password, x.Password));

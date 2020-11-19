@@ -17,6 +17,19 @@ namespace Сafeteria.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        [Route("{userId}")]
+        public async Task<IActionResult> Get([FromRoute] int userId)
+        {
+            var result = await _userService.GetById(userId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
