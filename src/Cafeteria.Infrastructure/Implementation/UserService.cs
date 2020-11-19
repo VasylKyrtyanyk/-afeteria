@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -42,6 +43,19 @@ namespace Сafeteria.Infrastructure.Implementation
 
             return _mapper.Map<UserDTO>(user);
         }
+
+        public async Task<IEnumerable<UserDTO>> GetAll()
+        {
+            var users = await _unitOfWork.UserRepository.GetAll();
+
+            if (users == null || !users.Any())
+            {
+                _logger.LogError("Couldn't find users in the data base.");
+            }
+
+            return _mapper.Map<IEnumerable<UserDTO>>(users);
+        }
+
         public async Task<UserDTO> Authenticate(string email, string password)
         {
             var user = (await _unitOfWork.UserRepository.GetAll()).SingleOrDefault(x => x.Email == email && BC.Verify(password, x.Password));
