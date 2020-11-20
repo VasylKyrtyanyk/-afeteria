@@ -67,20 +67,6 @@ namespace Сafeteria.Infrastructure.Implementation
                     _logger.LogError($"Couldn't get user from the data base. UserId: {userId}");
                     return false;
                 }
-
-                var userOrders = await _unitOfWork.OrderRepository.GetUserOrders(userId);
-                foreach(Order order in userOrders)
-                {
-                    await _unitOfWork.OrderRepository.Remove(order);
-                    await _unitOfWork.Save();
-                }
-
-                var userProfile = await _unitOfWork.UserProfileRepository.GetUserProfile(userId);
-                if(userProfile == null)
-                {
-                    _logger.LogError($"Couldn't get user profile from the database. UserId: {userId}");
-                    return false;
-                }
                 await _unitOfWork.UserRepository.Remove(user);
                 await _unitOfWork.Save();
 
