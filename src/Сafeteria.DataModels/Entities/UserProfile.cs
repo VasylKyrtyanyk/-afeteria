@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using Сafeteria.DataModels.Entities.Abstraction;
 using Сafeteria.DataModels.Entities.ValueObjects;
 
 namespace Сafeteria.DataModels.Entities
 {
-    public class UserProfile
+    public class UserProfile : IEntity<int>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

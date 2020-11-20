@@ -13,6 +13,7 @@ namespace Сafeteria.Services
         private IProductRepository _productRepository;
         private IOrderRepository _orderRepository;
         private IMenuRepository _menuRepository;
+        private IUserProfileRepository _userProfileRepository;
 
         public UnitOfWork(CafeteriaDbContext dbContext)
         {
@@ -54,6 +55,15 @@ namespace Сafeteria.Services
                 if (_productRepository == null)
                     _productRepository = new ProductRepository(_dbContext);
                 return _productRepository;
+            }
+        }
+        public IUserProfileRepository UserProfileRepository
+        {
+            get
+            {
+                if (_userProfileRepository == null)
+                    _userProfileRepository = new UserProfileRepository(_dbContext);
+                return _userProfileRepository;
             }
         }
         public async Task Save()

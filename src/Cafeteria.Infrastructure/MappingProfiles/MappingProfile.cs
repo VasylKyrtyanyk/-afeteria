@@ -10,7 +10,7 @@ namespace Сafeteria.Infrastructure.MappingProfiles
         public MappingProfile()
         {
             CreateMap<User, UserDTO>().ReverseMap();
-            CreateMap<UserProfile, UserDTO>().ReverseMap();
+            CreateMap<UserProfile, UserProfileDTO>().ReverseMap();
             CreateMap<Menu, MenuDTO>().ReverseMap();
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();

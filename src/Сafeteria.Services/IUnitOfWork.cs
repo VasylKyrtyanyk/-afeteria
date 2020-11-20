@@ -9,6 +9,7 @@ namespace Сafeteria.Services
         IOrderRepository OrderRepository { get; }
         IMenuRepository MenuRepository { get; }
         IProductRepository ProductRepository { get; }
+        IUserProfileRepository UserProfileRepository { get; }
         Task Save();
     }
 }
