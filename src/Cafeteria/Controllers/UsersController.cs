@@ -42,6 +42,20 @@ namespace Сafeteria.Controllers
             return Ok(result);
         }
 
+        [HttpDelete]
+        [Route("{userId}")]
+        public async Task<IActionResult> Delete([FromRoute] int userId)
+        {
+            var userResult = await _userService.DeleteById(userId);
+
+            if (userResult != true)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)

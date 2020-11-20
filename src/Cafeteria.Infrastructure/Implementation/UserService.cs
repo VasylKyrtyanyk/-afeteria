@@ -56,6 +56,43 @@ namespace Сafeteria.Infrastructure.Implementation
             return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
 
+        public async Task<bool> DeleteById(int userId)
+        {
+            try
+            {
+                var user = await _unitOfWork.UserRepository.Get(userId);
+
+                if (user == null)
+                {
+                    _logger.LogError($"Couldn't get user from the data base. UserId: {userId}");
+                    return false;
+                }
+
+                var userOrders = await _unitOfWork.OrderRepository.GetUserOrders(userId);
+                foreach(Order order in userOrders)
+                {
+                    await _unitOfWork.OrderRepository.Remove(order);
+                    await _unitOfWork.Save();
+                }
+
+                var userProfile = await _unitOfWork.UserProfileRepository.GetUserProfile(userId);
+                if(userProfile == null)
+                {
+                    _logger.LogError($"Couldn't get user profile from the database. UserId: {userId}");
+                    return false;
+                }
+                await _unitOfWork.UserRepository.Remove(user);
+                await _unitOfWork.Save();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Couldn't delete user from the database.");
+                return false;
+            }
+        }
+
         public async Task<UserDTO> Authenticate(string email, string password)
         {
             var user = (await _unitOfWork.UserRepository.GetAll()).SingleOrDefault(x => x.Email == email && BC.Verify(password, x.Password));

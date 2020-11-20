@@ -8,6 +8,7 @@ namespace Сafeteria.Infrastructure.Abstraction
     {
         Task<UserDTO> GetById(int userId);
         Task<IEnumerable<UserDTO>> GetAll();
+        Task<bool> DeleteById(int userId);
         Task<UserDTO> Authenticate(string userName, string password);
         Task<bool> Register(UserDTO user);
     }
