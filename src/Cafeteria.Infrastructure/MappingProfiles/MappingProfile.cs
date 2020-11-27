@@ -17,6 +17,7 @@ namespace Сafeteria.Infrastructure.MappingProfiles
             CreateMap<ProductOrder, ProductOrderDTO>().ReverseMap();
             CreateMap<ProductMenu, ProductMenuDTO>().ReverseMap();
             CreateMap<Product, AddProductCommand>().ReverseMap();
+            CreateMap<Order, CreateOrderCommand>().ReverseMap();
         }
     }
 }
