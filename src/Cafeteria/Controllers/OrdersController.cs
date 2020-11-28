@@ -67,7 +67,7 @@ namespace Сafeteria.Controllers
         public async Task<IActionResult> Update([FromRoute] int orderId, [FromBody] UpdateOrderCommand updateOrderCommand)
         {
             var orderResult = await _orderService.Update(orderId, updateOrderCommand);
-            if (orderResult != true)
+            if (orderResult == null)
             {
                 return NotFound();
             }
