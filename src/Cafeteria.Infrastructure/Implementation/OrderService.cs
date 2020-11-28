@@ -105,6 +105,25 @@ namespace Сafeteria.Infrastructure.Implementation
             }
         }
 
+        public async Task<bool> Update(int orderId, UpdateOrderCommand updateOrderCommand)
+        {
+            Order order = await _unitOfWork.OrderRepository.Get(orderId);
+            if(order == null || order.UserId!=updateOrderCommand.UserId)
+            {
+                _logger.LogError($"Couldn't find order in database. OrderId: {orderId}");
+                return false;
+            }
+
+            order.CompletedDate = updateOrderCommand.CompletedDate;
+            order.PaymentType = updateOrderCommand.PaymentType;
+            order.OrderStatus = updateOrderCommand.OrderStatus;
+            order.IsTakeAway = updateOrderCommand.IsTakeAway;
+
+            await _unitOfWork.OrderRepository.Update(order);
+            await _unitOfWork.Save();
+            return true;
+        }
+
         public async Task<IEnumerable<OrderDTO>> GetUserOrders(int userId)
         {
             var orders = await _unitOfWork.OrderRepository.GetUserOrders(userId);

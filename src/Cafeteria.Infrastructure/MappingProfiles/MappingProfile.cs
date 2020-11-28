@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Collections.Generic;
 using Сafeteria.DataModels.Entities;
 using Сafeteria.Infrastructure.Commands;
 using Сafeteria.Infrastructure.ModelsDTO;
@@ -18,6 +19,7 @@ namespace Сafeteria.Infrastructure.MappingProfiles
             CreateMap<ProductMenu, ProductMenuDTO>().ReverseMap();
             CreateMap<Product, AddProductCommand>().ReverseMap();
             CreateMap<Order, CreateOrderCommand>().ReverseMap();
+            CreateMap<Order, UpdateOrderCommand>().ReverseMap();
         }
     }
 }
