@@ -50,6 +50,26 @@ namespace Сafeteria.Infrastructure.Implementation
             }
         }
 
+        public async Task<ProductDTO> Update(int productId, UpdateProductCommand updateProductCommand)
+        {
+            Product product = await _unitOfWork.ProductRepository.Get(productId);
+            if (product == null)
+            {
+                _logger.LogError($"Couldn't find product in database. ProductId: {productId}");
+                return null;
+            }
+
+            product.Description = updateProductCommand.Description;
+            product.Price = updateProductCommand.Price;
+            product.FinalDate = updateProductCommand.FinalDate;
+            product.Weight = updateProductCommand.Weight;
+            product.ProductCategory = updateProductCommand.ProductCategory;
+
+            await _unitOfWork.ProductRepository.Update(product);
+            await _unitOfWork.Save();
+
+            return _mapper.Map<ProductDTO>(product);
+        }
         public async Task<bool> DeleteById(int productId)
         {
             try
