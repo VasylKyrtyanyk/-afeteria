@@ -52,17 +52,20 @@ namespace Сafeteria.Infrastructure.Implementation
         {
             if (command == null)
             {
-                // throw new ArgumentNullException();
+                throw new ArgumentNullException("Command can't be null");
             }
 
-            var order = new Order() {   UserId = command.UserId, CreatedDate = DateTime.Now, 
-                                        CompletedDate = command.CompletedDate,
-                                        PaymentType = command.PaymentType,
-                                        OrderStatus = command.OrderStatus,
-                                        IsTakeAway = command.IsTakeAway
-                                    };
+            var order = new Order()
+            {
+                UserId = command.UserId,
+                CreatedDate = DateTime.Now,
+                CompletedDate = command.CompletedDate,
+                PaymentType = command.PaymentType,
+                OrderStatus = command.OrderStatus,
+                IsTakeAway = command.IsTakeAway
+            };
 
-            foreach(var item in command.OrderProducts)
+            foreach (var item in command.OrderProducts)
             {
                 Product product = await _unitOfWork.ProductRepository.Get(item.ProductId);
                 order.TotalSum += product.Price;
@@ -108,7 +111,7 @@ namespace Сafeteria.Infrastructure.Implementation
         public async Task<OrderDTO> Update(int orderId, UpdateOrderCommand updateOrderCommand)
         {
             Order order = await _unitOfWork.OrderRepository.Get(orderId);
-            if(order == null || order.UserId!=updateOrderCommand.UserId)
+            if (order == null || order.UserId != updateOrderCommand.UserId)
             {
                 _logger.LogError($"Couldn't find order in database. OrderId: {orderId}");
                 return null;

@@ -56,7 +56,7 @@ namespace Сafeteria.Controllers
         }
 
         [HttpPut]
-        [Route("/UsersProfile/update/{profileId}")]
+        [Route("update/{profileId}")]
         public async Task<IActionResult> Update([FromRoute] int profileId, [FromBody] UpdateUserCommand updateUserCommand)
         {
             var profileResult = await _userProfileService.Update(profileId, updateUserCommand);

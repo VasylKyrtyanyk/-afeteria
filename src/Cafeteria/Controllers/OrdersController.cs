@@ -57,15 +57,25 @@ namespace Сafeteria.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CreateOrderCommand order)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _orderService.Add(order);
 
             return CreatedAtAction(nameof(Add), result);
         }
 
         [HttpPut]
-        [Route("/update/{orderId}")]
+        [Route("update/{orderId}")]
         public async Task<IActionResult> Update([FromRoute] int orderId, [FromBody] UpdateOrderCommand updateOrderCommand)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var orderResult = await _orderService.Update(orderId, updateOrderCommand);
             if (orderResult == null)
             {

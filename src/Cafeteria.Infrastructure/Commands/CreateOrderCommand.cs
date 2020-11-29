@@ -6,10 +6,7 @@ namespace Сafeteria.Infrastructure.Commands
 {
     public class CreateOrderCommand
     {
-        // TODO
         public int UserId { get; set; }
-        // public decimal TotalSum { get; set; } // We should count it
-        // public DateTime CreatedDate { get; set; }
         public DateTime? CompletedDate { get; set; }
         public PaymentType PaymentType { get; set; }
         public OrderStatus OrderStatus { get; set; }

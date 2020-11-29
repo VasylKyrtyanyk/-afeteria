@@ -4,27 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Сafeteria.DataModels.Entities;
 using Сafeteria.Infrastructure.Abstraction;
 using Сafeteria.Infrastructure.Commands;
 using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
-using Сafeteria.Services.Helpers;
 
 namespace Сafeteria.Infrastructure.Implementation
 {
-    public class UserProfileService: IUserProfileService
+    public class UserProfileService : IUserProfileService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
         private readonly ILogger<UserProfileService> _logger;
 
-        public UserProfileService(IUnitOfWork unitOfWork, IOptions<AppSettings> appSettings, IMapper mapper, ILogger<UserProfileService> logger)
+        public UserProfileService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserProfileService> logger)
         {
             _unitOfWork = unitOfWork;
-            _appSettings = appSettings.Value;
             _mapper = mapper;
             _logger = logger;
         }
@@ -98,14 +94,14 @@ namespace Сafeteria.Infrastructure.Implementation
 
         public async Task<UserProfileDTO> GetUserProfile(int userId)
         {
-            var profile = await _unitOfWork.UserProfileRepository.GetUserProfile(userId);
+            var userProfile = await _unitOfWork.UserProfileRepository.GetUserProfile(userId);
 
-            if (profile == null)
+            if (userProfile == null)
             {
                 _logger.LogError($"Couldn't get profile from the database. UserId: {userId}");
             }
 
-            return _mapper.Map<UserProfileDTO>(profile);
+            return _mapper.Map<UserProfileDTO>(userProfile);
         }
     }
 }

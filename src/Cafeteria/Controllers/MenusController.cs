@@ -44,15 +44,25 @@ namespace Сafeteria.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddMenuCommand menu)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _menuService.Add(menu);
 
             return CreatedAtAction(nameof(Add), result);
         }
 
         [HttpPut]
-        [Route("/Menus/update/{menuId}")]
+        [Route("update/{menuId}")]
         public async Task<IActionResult> Update([FromRoute] int menuId, [FromBody] UpdateMenuCommand updateMenuCommand)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var menuResult = await _menuService.Update(menuId, updateMenuCommand);
             if (menuResult == null)
             {

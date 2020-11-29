@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Сafeteria.DataModels.Entities.Abstraction;
-using Сafeteria.DataModels.Entities.ValueObjects;
 
 namespace Сafeteria.DataModels.Entities
 {
