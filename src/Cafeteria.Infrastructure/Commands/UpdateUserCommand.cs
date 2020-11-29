@@ -1,15 +1,13 @@
-﻿using Сafeteria.DataModels.Entities.ValueObjects;
+﻿using System;
+using Сafeteria.DataModels.Entities.ValueObjects;
 using Сafeteria.Infrastructure.ModelsDTO;
 
 namespace Сafeteria.Infrastructure.Commands
 {
     public class UpdateUserCommand
     {
-        // TODO
-        public int Id { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public UserType UserType { get; set; }
-        public UserProfileDTO Profile { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime DateOfBirth { get; set; }
     }
 }

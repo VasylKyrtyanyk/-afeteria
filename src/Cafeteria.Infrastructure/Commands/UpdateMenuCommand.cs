@@ -1,7 +1,10 @@
-﻿namespace Сafeteria.Infrastructure.Commands
+﻿using System;
+
+namespace Сafeteria.Infrastructure.Commands
 {
     public class UpdateMenuCommand
     {
-        // TODO 
+        public string Name { get; set; }
+        public DateTime MenuDate { get; set; }
     }
 }

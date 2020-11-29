@@ -32,6 +32,19 @@ namespace Сafeteria.Controllers
             return CreatedAtAction(nameof(Add), result);
         }
 
+        [HttpPut]
+        [Route("/products/update/{productId}")]
+        public async Task<IActionResult> Update([FromRoute] int productId, [FromBody] UpdateProductCommand updateProductCommand)
+        {
+            var productResult = await _productService.Update(productId, updateProductCommand);
+            if (productResult == null)
+            {
+                return NotFound();
+            }
+
+            return CreatedAtAction(nameof(Update), productResult);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

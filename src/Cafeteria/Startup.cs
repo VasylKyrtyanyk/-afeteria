@@ -55,6 +55,7 @@ namespace Сafeteria
               .AddScoped<IOrderService, OrderService>()
               .AddScoped<IMenuService, MenuService>()
               .AddScoped<IProductService, ProductService>()
+              .AddScoped<IUserProfileService,UserProfileService>()
               .AddAutoMapper(configuration => configuration.AddProfile<MappingProfile>());
 
             var appSettingsSection = Configuration.GetSection("AppSettings");

@@ -49,6 +49,19 @@ namespace Сafeteria.Controllers
             return CreatedAtAction(nameof(Add), result);
         }
 
+        [HttpPut]
+        [Route("/Menus/update/{menuId}")]
+        public async Task<IActionResult> Update([FromRoute] int menuId, [FromBody] UpdateMenuCommand updateMenuCommand)
+        {
+            var menuResult = await _menuService.Update(menuId, updateMenuCommand);
+            if (menuResult == null)
+            {
+                return NotFound();
+            }
+
+            return CreatedAtAction(nameof(Update), menuResult);
+        }
+
         [HttpDelete]
         [Route("{menuId}")]
         public async Task<IActionResult> Delete([FromRoute] int menuId)

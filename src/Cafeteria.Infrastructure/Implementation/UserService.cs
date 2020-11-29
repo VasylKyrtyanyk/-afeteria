@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -29,6 +30,53 @@ namespace Сafeteria.Infrastructure.Implementation
             _appSettings = appSettings.Value;
             _mapper = mapper;
             _logger = logger;
+        }
+
+        public async Task<UserDTO> GetById(int userId)
+        {
+            var user = await _unitOfWork.UserRepository.Get(userId);
+
+            if (user == null)
+            {
+                _logger.LogError($"Couldn't get user from the data base. UserId: {userId}");
+            }
+
+            return _mapper.Map<UserDTO>(user);
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetAll()
+        {
+            var users = await _unitOfWork.UserRepository.GetAll();
+
+            if (users == null || !users.Any())
+            {
+                _logger.LogError("Couldn't find users in the data base.");
+            }
+
+            return _mapper.Map<IEnumerable<UserDTO>>(users);
+        }
+
+        public async Task<bool> DeleteById(int userId)
+        {
+            try
+            {
+                var user = await _unitOfWork.UserRepository.Get(userId);
+
+                if (user == null)
+                {
+                    _logger.LogError($"Couldn't get user from the data base. UserId: {userId}");
+                    return false;
+                }
+                await _unitOfWork.UserRepository.Remove(user);
+                await _unitOfWork.Save();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Couldn't delete user from the database.");
+                return false;
+            }
         }
 
         public async Task<UserDTO> Authenticate(string email, string password)

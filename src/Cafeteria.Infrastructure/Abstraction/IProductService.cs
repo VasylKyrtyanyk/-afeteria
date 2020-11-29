@@ -11,5 +11,6 @@ namespace Сafeteria.Infrastructure.Abstraction
         Task<IEnumerable<ProductDTO>> GetAll();
         Task<bool> DeleteById(int productId);
         Task<ProductDTO> Add(AddProductCommand product);
+        Task<ProductDTO> Update(int productId, UpdateProductCommand update);
     }
 }

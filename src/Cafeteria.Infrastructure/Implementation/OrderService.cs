@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Сafeteria.DataModels.Entities;
 using Сafeteria.Infrastructure.Abstraction;
+using Сafeteria.Infrastructure.Commands;
 using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
 
@@ -46,6 +48,39 @@ namespace Сafeteria.Infrastructure.Implementation
             return _mapper.Map<IEnumerable<OrderDTO>>(orders);
         }
 
+        public async Task<OrderDTO> Add(CreateOrderCommand command)
+        {
+            if (command == null)
+            {
+                // throw new ArgumentNullException();
+            }
+
+            var order = new Order() {   UserId = command.UserId, CreatedDate = DateTime.Now, 
+                                        CompletedDate = command.CompletedDate,
+                                        PaymentType = command.PaymentType,
+                                        OrderStatus = command.OrderStatus,
+                                        IsTakeAway = command.IsTakeAway
+                                    };
+
+            foreach(var item in command.OrderProducts)
+            {
+                Product product = await _unitOfWork.ProductRepository.Get(item.ProductId);
+                order.TotalSum += product.Price;
+            }
+            await _unitOfWork.OrderRepository.Add(order);
+            await _unitOfWork.Save();
+
+            order.ProductOrders = new List<ProductOrder>();
+
+            foreach (var item in command.OrderProducts)
+            {
+                order.ProductOrders.Add(new ProductOrder() { OrderId = order.Id, ProductId = item.ProductId });
+            }
+            await _unitOfWork.Save();
+
+            return _mapper.Map<OrderDTO>(order);
+        }
+
         public async Task<bool> DeleteById(int orderId)
         {
             try
@@ -68,6 +103,26 @@ namespace Сafeteria.Infrastructure.Implementation
                 _logger.LogError(ex, $"Couldn't delete order from the data base.");
                 return false;
             }
+        }
+
+        public async Task<OrderDTO> Update(int orderId, UpdateOrderCommand updateOrderCommand)
+        {
+            Order order = await _unitOfWork.OrderRepository.Get(orderId);
+            if(order == null || order.UserId!=updateOrderCommand.UserId)
+            {
+                _logger.LogError($"Couldn't find order in database. OrderId: {orderId}");
+                return null;
+            }
+
+            order.CompletedDate = updateOrderCommand.CompletedDate;
+            order.PaymentType = updateOrderCommand.PaymentType;
+            order.OrderStatus = updateOrderCommand.OrderStatus;
+            order.IsTakeAway = updateOrderCommand.IsTakeAway;
+
+            await _unitOfWork.OrderRepository.Update(order);
+            await _unitOfWork.Save();
+
+            return _mapper.Map<OrderDTO>(order);
         }
 
         public async Task<IEnumerable<OrderDTO>> GetUserOrders(int userId)

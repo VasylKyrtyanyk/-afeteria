@@ -17,6 +17,45 @@ namespace Сafeteria.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        [Route("{userId}")]
+        public async Task<IActionResult> Get([FromRoute] int userId)
+        {
+            var result = await _userService.GetById(userId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _userService.GetAll();
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("{userId}")]
+        public async Task<IActionResult> Delete([FromRoute] int userId)
+        {
+            var userResult = await _userService.DeleteById(userId);
+
+            if (userResult != true)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
