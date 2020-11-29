@@ -46,6 +46,24 @@ namespace Сafeteria.Infrastructure.Implementation
             return _mapper.Map<MenuDTO>(menu);
         }
 
+        public async Task<MenuDTO> Update(int menuId, UpdateMenuCommand updateMenuCommand)
+        {
+            Menu menu = await _unitOfWork.MenuRepository.Get(menuId);
+            if (menu == null)
+            {
+                _logger.LogError($"Couldn't find menu in database. MenuId: {menuId}");
+                return null;
+            }
+
+            menu.Name = updateMenuCommand.Name;
+            menu.MenuDate = updateMenuCommand.MenuDate;
+
+            await _unitOfWork.MenuRepository.Update(menu);
+            await _unitOfWork.Save();
+
+            return _mapper.Map<MenuDTO>(menu);
+        }
+
         public async Task<bool> DeleteById(int menuId)
         {
             try
