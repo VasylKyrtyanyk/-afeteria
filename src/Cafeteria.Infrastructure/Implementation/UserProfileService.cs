@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Сafeteria.DataModels.Entities;
 using Сafeteria.Infrastructure.Abstraction;
+using Сafeteria.Infrastructure.Commands;
 using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
 using Сafeteria.Services.Helpers;
@@ -74,6 +75,25 @@ namespace Сafeteria.Infrastructure.Implementation
                 _logger.LogError(ex, $"Couldn't delete profile from the database.");
                 return false;
             }
+        }
+
+        public async Task<UserProfileDTO> Update(int profileId, UpdateUserCommand updateUserCommand)
+        {
+            UserProfile userProfile = await _unitOfWork.UserProfileRepository.Get(profileId);
+            if (userProfile == null)
+            {
+                _logger.LogError($"Couldn't find profile in database. ProfileId: {profileId}");
+                return null;
+            }
+
+            userProfile.FirstName = updateUserCommand.FirstName;
+            userProfile.LastName = updateUserCommand.LastName;
+            userProfile.DateOfBirth = updateUserCommand.DateOfBirth;
+
+            await _unitOfWork.UserProfileRepository.Update(userProfile);
+            await _unitOfWork.Save();
+
+            return _mapper.Map<UserProfileDTO>(userProfile);
         }
 
         public async Task<UserProfileDTO> GetUserProfile(int userId)

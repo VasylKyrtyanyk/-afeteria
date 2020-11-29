@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Сafeteria.Infrastructure.Abstraction;
+using Сafeteria.Infrastructure.Commands;
 
 namespace Сafeteria.Controllers
 {
@@ -52,6 +53,19 @@ namespace Сafeteria.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("/UsersProfile/update/{profileId}")]
+        public async Task<IActionResult> Update([FromRoute] int profileId, [FromBody] UpdateUserCommand updateUserCommand)
+        {
+            var profileResult = await _userProfileService.Update(profileId, updateUserCommand);
+            if (profileResult == null)
+            {
+                return NotFound();
+            }
+
+            return CreatedAtAction(nameof(Update), profileResult);
         }
 
         [HttpGet]
