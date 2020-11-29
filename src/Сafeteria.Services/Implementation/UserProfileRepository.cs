@@ -7,7 +7,7 @@ using Сafeteria.Services.Abstraction;
 
 namespace Сafeteria.Services.Implementation
 {
-    public class UserProfileRepository :  GenericRepository<UserProfile,int>, IUserProfileRepository
+    public class UserProfileRepository : GenericRepository<UserProfile, int>, IUserProfileRepository
     {
         public UserProfileRepository(CafeteriaDbContext dbContext) : base(dbContext)
         {

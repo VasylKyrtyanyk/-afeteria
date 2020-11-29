@@ -27,15 +27,25 @@ namespace Сafeteria.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddProductCommand product)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _productService.Add(product);
 
             return CreatedAtAction(nameof(Add), result);
         }
 
         [HttpPut]
-        [Route("/products/update/{productId}")]
+        [Route("update/{productId}")]
         public async Task<IActionResult> Update([FromRoute] int productId, [FromBody] UpdateProductCommand updateProductCommand)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var productResult = await _productService.Update(productId, updateProductCommand);
             if (productResult == null)
             {

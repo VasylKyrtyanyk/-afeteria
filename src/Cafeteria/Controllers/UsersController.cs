@@ -60,10 +60,17 @@ namespace Сafeteria.Controllers
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _userService.Authenticate(model.Email, model.Password);
 
             if (user == null)
+            {
                 return BadRequest(new { message = "Username or password is incorrect" });
+            }
 
             return Ok(user);
         }
@@ -72,10 +79,17 @@ namespace Сafeteria.Controllers
         [HttpPost("registration")]
         public async Task<IActionResult> Registration([FromBody] UserDTO model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var isRegistered = await _userService.Register(model);
 
             if (isRegistered == false)
+            {
                 return BadRequest(new { message = "Username or password is incorrect" });
+            }
 
             return Ok(true);
         }

@@ -27,7 +27,7 @@ namespace Сafeteria.Infrastructure.Implementation
         {
             if (command == null)
             {
-                // throw new ArgumentNullException();
+                throw new ArgumentNullException("Command can't be null");
             }
 
             var menu = new Menu() { Name = command.Name, MenuDate = command.MenuDate };
@@ -72,7 +72,7 @@ namespace Сafeteria.Infrastructure.Implementation
 
                 if (menu == null)
                 {
-                    _logger.LogError($"Couldn't get menu from the data base. MenuId: {menuId}");
+                    _logger.LogError($"Couldn't get menu from the database. MenuId: {menuId}");
                     return false;
                 }
 
@@ -83,7 +83,7 @@ namespace Сafeteria.Infrastructure.Implementation
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Couldn't delete menu from the data base.");
+                _logger.LogError(ex, $"Couldn't delete menu from the database.");
                 return false;
             }
         }

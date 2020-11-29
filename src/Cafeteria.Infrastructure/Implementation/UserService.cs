@@ -64,7 +64,7 @@ namespace Сafeteria.Infrastructure.Implementation
 
                 if (user == null)
                 {
-                    _logger.LogError($"Couldn't get user from the data base. UserId: {userId}");
+                    _logger.LogError($"Couldn't get user from the database. UserId: {userId}");
                     return false;
                 }
                 await _unitOfWork.UserRepository.Remove(user);
@@ -83,10 +83,10 @@ namespace Сafeteria.Infrastructure.Implementation
         {
             var user = (await _unitOfWork.UserRepository.GetAll()).SingleOrDefault(x => x.Email == email && BC.Verify(password, x.Password));
 
-            // return null if user not found
+            // throw an exception if user not found
             if (user == null)
             {
-                return null;
+                throw new NullReferenceException($"Failed to find a user with email: {email}");
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();

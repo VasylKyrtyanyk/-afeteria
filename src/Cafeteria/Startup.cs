@@ -1,4 +1,3 @@
-using System;
 using Cafeteria.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,7 +54,7 @@ namespace Сafeteria
               .AddScoped<IOrderService, OrderService>()
               .AddScoped<IMenuService, MenuService>()
               .AddScoped<IProductService, ProductService>()
-              .AddScoped<IUserProfileService,UserProfileService>()
+              .AddScoped<IUserProfileService, UserProfileService>()
               .AddAutoMapper(configuration => configuration.AddProfile<MappingProfile>());
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
