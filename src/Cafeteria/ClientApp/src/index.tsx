@@ -8,9 +8,12 @@ import { createBrowserHistory } from 'history';
 import configureStore from './store/configureStore';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import { Route, Switch } from 'react-router' // react-router v4/v5
+import Login from './components/Login/Login';
 
 // Create browser history to use in the Redux store
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;
+// const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;
+const baseUrl = 'https://localhost:44311/';
 const history = createBrowserHistory({ basename: baseUrl });
 
 // Get the application-wide store instance, prepopulating with state from the server where available.
@@ -19,7 +22,10 @@ const store = configureStore(history);
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <App />
+            <Switch>
+                <Route path="/" component={Login}  />
+                {/* <Route path="/Login" component={Login}  /> */}
+            </Switch>
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root'));

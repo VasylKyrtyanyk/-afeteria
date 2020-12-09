@@ -1,4 +1,5 @@
 import axios from "../axios"
+import { User } from "../store/Login"
 
 export const authenticate = (username: string, password: string) => {
     const credentials = {
@@ -6,9 +7,7 @@ export const authenticate = (username: string, password: string) => {
         password,
     }
     return axios
-        .post(`/api/Users/authenticate`, credentials)
-        .then(response => response)
-        .catch(error => error)
+        .post<User>(`/api/Users/authenticate`, credentials);
 }
 
 export const getUserDataByUserId = (id: number) =>
