@@ -1,20 +1,17 @@
-import { CssBaseline, Grid, TextField, Typography } from "@material-ui/core";
+import { createStyles, CssBaseline, Grid, TextField, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
 import * as React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { Button, Container } from "reactstrap";
 import { ApplicationState } from "../../store";
 import * as LoginStore from "../../store/Login";
 import { makeStyles } from "@material-ui/core/styles";
+import { compose } from "redux";
 
-type LoginProps = LoginStore.LoginState &
-  typeof LoginStore.actionCreators &
-  RouteComponentProps<{}>;
-
-const useStyles = makeStyles((theme) => ({
+const styles = (theme: Theme) => createStyles({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(16),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -24,13 +21,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "35%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 'auto', 2),
   },
-}));
+});
+
+type LoginProps = LoginStore.LoginState &
+  typeof LoginStore.actionCreators &
+  RouteComponentProps<{}> & WithStyles<typeof styles> & RouteComponentProps["history"];;
+
+
 
 class Login extends React.PureComponent<LoginProps> {
   state = {
@@ -47,7 +50,7 @@ class Login extends React.PureComponent<LoginProps> {
   };
 
   public render() {
-    const style = useStyles();
+    const style = this.props.classes;
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -89,7 +92,7 @@ class Login extends React.PureComponent<LoginProps> {
               fullWidth
               variant="contained"
               color="primary"
-              className={useStyles().submit}
+              className={style.submit}
               onClick={() => this.ensureDataFetched()}
             >
               Sign In
@@ -114,7 +117,7 @@ class Login extends React.PureComponent<LoginProps> {
   }
 }
 
-export default connect(
+export default compose(connect(
   (state: ApplicationState) => state.login, // Selects which state properties are merged into the component's props
   LoginStore.actionCreators // Selects which action creators are merged into the component's props
-)(Login as any);
+), withStyles(styles), withRouter)(Login as any);
