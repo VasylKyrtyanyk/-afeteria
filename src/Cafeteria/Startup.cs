@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Сafeteria.Infrastructure.Implementation;
 using Сafeteria.Infrastructure.Abstraction;
 using Сafeteria.Infrastructure.MappingProfiles;
+using Сafeteria.Middlewares;
 
 namespace Сafeteria
 {
@@ -103,6 +104,8 @@ namespace Сafeteria
             }
 
             app.UseSwagger();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
