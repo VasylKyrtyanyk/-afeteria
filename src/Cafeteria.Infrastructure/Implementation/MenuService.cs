@@ -8,6 +8,7 @@ using Сafeteria.Infrastructure.Abstraction;
 using Сafeteria.Infrastructure.Commands;
 using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
+using Сafeteria.Services.Common.Exeptions;
 
 namespace Сafeteria.Infrastructure.Implementation
 {
@@ -51,8 +52,8 @@ namespace Сafeteria.Infrastructure.Implementation
             Menu menu = await _unitOfWork.MenuRepository.Get(menuId);
             if (menu == null)
             {
-                _logger.LogError($"Couldn't find menu in database. MenuId: {menuId}");
-                return null;
+                _logger.LogError($"Couldn't find a menu in the database. MenuId: {menuId}");
+                throw new NotFoundException(nameof(Menu), menuId.ToString());
             }
 
             menu.Name = updateMenuCommand.Name;
@@ -73,7 +74,7 @@ namespace Сafeteria.Infrastructure.Implementation
                 if (menu == null)
                 {
                     _logger.LogError($"Couldn't get menu from the database. MenuId: {menuId}");
-                    return false;
+                    throw new NotFoundException(nameof(Menu), menuId.ToString());
                 }
 
                 await _unitOfWork.MenuRepository.Remove(menu);
@@ -102,6 +103,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (menu == null)
             {
                 _logger.LogError($"Couldn't get menu from the database. MenuId: {menuId}");
+                throw new NotFoundException(nameof(Menu), menuId.ToString());
             }
 
             return _mapper.Map<MenuDTO>(menu);

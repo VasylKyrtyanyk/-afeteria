@@ -9,6 +9,7 @@ using Сafeteria.Infrastructure.Abstraction;
 using Сafeteria.Infrastructure.Commands;
 using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
+using Сafeteria.Services.Common.Exeptions;
 
 namespace Сafeteria.Infrastructure.Implementation
 {
@@ -56,7 +57,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (product == null)
             {
                 _logger.LogError($"Couldn't find product in database. ProductId: {productId}");
-                return null;
+                throw new NotFoundException(nameof(Product), productId.ToString());
             }
 
             product.Description = updateProductCommand.Description;
@@ -113,6 +114,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (product == null)
             {
                 _logger.LogError($"Couldn't get product from the database. ProductId: {productId}");
+                throw new NotFoundException(nameof(Product), productId.ToString());
             }
 
             return _mapper.Map<ProductDTO>(product);

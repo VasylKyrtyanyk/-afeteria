@@ -9,6 +9,7 @@ using Сafeteria.Infrastructure.Abstraction;
 using Сafeteria.Infrastructure.Commands;
 using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
+using Сafeteria.Services.Common.Exeptions;
 
 namespace Сafeteria.Infrastructure.Implementation
 {
@@ -32,6 +33,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (profile == null)
             {
                 _logger.LogError($"Couldn't get user profile from the database. ProfileId: {profileId}");
+                throw new NotFoundException(nameof(UserProfile), profileId.ToString());
             }
 
             return _mapper.Map<UserProfileDTO>(profile);
@@ -58,7 +60,7 @@ namespace Сafeteria.Infrastructure.Implementation
                 if (profile == null)
                 {
                     _logger.LogError($"Couldn't get user profile from the database. ProfileId: {profileId}");
-                    return false;
+                    throw new NotFoundException(nameof(UserProfile), profileId.ToString());
                 }
 
                 await _unitOfWork.UserProfileRepository.Remove(profile);
@@ -79,7 +81,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (userProfile == null)
             {
                 _logger.LogError($"Couldn't find profile in database. ProfileId: {profileId}");
-                return null;
+                throw new NotFoundException(nameof(UserProfile), profileId.ToString());
             }
 
             userProfile.FirstName = updateUserCommand.FirstName;
@@ -99,6 +101,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (userProfile == null)
             {
                 _logger.LogError($"Couldn't get profile from the database. UserId: {userId}");
+                throw new NotFoundException(nameof(UserProfile), userId.ToString());
             }
 
             return _mapper.Map<UserProfileDTO>(userProfile);

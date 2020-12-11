@@ -9,6 +9,7 @@ using Сafeteria.Infrastructure.Abstraction;
 using Сafeteria.Infrastructure.Commands;
 using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
+using Сafeteria.Services.Common.Exeptions;
 
 namespace Сafeteria.Infrastructure.Implementation
 {
@@ -31,6 +32,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (order == null)
             {
                 _logger.LogError($"Couldn't get order from the data base. OrderId: {orderId}");
+                throw new NotFoundException(nameof(Order), orderId.ToString());
             }
 
             return _mapper.Map<OrderDTO>(order);
@@ -93,7 +95,7 @@ namespace Сafeteria.Infrastructure.Implementation
                 if (order == null)
                 {
                     _logger.LogError($"Couldn't get order from the data base. OrderId: {orderId}");
-                    return false;
+                    throw new NotFoundException(nameof(Order), orderId.ToString());
                 }
 
                 await _unitOfWork.OrderRepository.Remove(order);
@@ -114,7 +116,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (order == null || order.UserId != updateOrderCommand.UserId)
             {
                 _logger.LogError($"Couldn't find order in database. OrderId: {orderId}");
-                return null;
+                throw new NotFoundException(nameof(Order), orderId.ToString());
             }
 
             order.CompletedDate = updateOrderCommand.CompletedDate;
