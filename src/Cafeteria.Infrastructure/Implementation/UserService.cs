@@ -13,6 +13,7 @@ using Сafeteria.DataModels.Entities;
 using Сafeteria.Infrastructure.Abstraction;
 using Сafeteria.Infrastructure.ModelsDTO;
 using Сafeteria.Services;
+using Сafeteria.Services.Common.Exeptions;
 using Сafeteria.Services.Helpers;
 using BC = BCrypt.Net.BCrypt;
 
@@ -39,6 +40,7 @@ namespace Сafeteria.Infrastructure.Implementation
             if (user == null)
             {
                 _logger.LogError($"Couldn't get user from the data base. UserId: {userId}");
+                throw new NotFoundException(nameof(User), userId.ToString());
             }
 
             return _mapper.Map<UserDTO>(user);
@@ -65,7 +67,7 @@ namespace Сafeteria.Infrastructure.Implementation
                 if (user == null)
                 {
                     _logger.LogError($"Couldn't get user from the database. UserId: {userId}");
-                    return false;
+                    throw new NotFoundException(nameof(User), userId.ToString());
                 }
                 await _unitOfWork.UserRepository.Remove(user);
                 await _unitOfWork.Save();
@@ -83,10 +85,9 @@ namespace Сafeteria.Infrastructure.Implementation
         {
             var user = (await _unitOfWork.UserRepository.GetAll()).SingleOrDefault(x => x.Email == email && BC.Verify(password, x.Password));
 
-            // throw an exception if user not found
             if (user == null)
             {
-                throw new NullReferenceException($"Failed to find a user with email: {email}");
+                throw new AuthorizationFailedExeption(email);
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
