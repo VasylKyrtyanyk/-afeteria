@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Сafeteria.DataModels.Entities;
@@ -18,11 +21,20 @@ namespace Сafeteria.Infrastructure.Implementation
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<ProductService> _logger;
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductService> logger)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public ProductService(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILogger<ProductService> logger,
+            IHttpContextAccessor httpContextAccessor,
+            IHostingEnvironment hostingEnvironment)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<ProductDTO> Add(AddProductCommand product)
@@ -35,6 +47,8 @@ namespace Сafeteria.Infrastructure.Implementation
                 {
                     throw new ArgumentNullException();
                 }
+
+                product.ImageName = await SaveImage(product.ImageFile);
 
                 var productEntity = _mapper.Map<Product>(product);
 
@@ -66,6 +80,14 @@ namespace Сafeteria.Infrastructure.Implementation
             product.Weight = updateProductCommand.Weight;
             product.ProductCategory = updateProductCommand.ProductCategory;
 
+
+            if (!String.IsNullOrEmpty(updateProductCommand.ImageName)
+                && updateProductCommand.ImageFile != null)
+            {
+                DeleteImage(updateProductCommand.ImageName);
+                product.ImageName = await SaveImage(updateProductCommand.ImageFile);
+            }
+
             await _unitOfWork.ProductRepository.Update(product);
             await _unitOfWork.Save();
 
@@ -79,8 +101,13 @@ namespace Сafeteria.Infrastructure.Implementation
 
                 if (product == null)
                 {
-                    _logger.LogError($"Couldn't get product from the data base. ProductId: {productId}");
+                    _logger.LogError($"Couldn't get product from the database. ProductId: {productId}");
                     return false;
+                }
+
+                if (!String.IsNullOrEmpty(product.ImageName))
+                {
+                    DeleteImage(product.ImageName);
                 }
 
                 await _unitOfWork.ProductRepository.Remove(product);
@@ -90,21 +117,37 @@ namespace Сafeteria.Infrastructure.Implementation
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Couldn't delete product from the data base.");
+                _logger.LogError(ex, $"Couldn't delete product from the database.");
                 return false;
             }
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
-            var orders = await _unitOfWork.ProductRepository.GetAll();
+            var products = await _unitOfWork.ProductRepository.GetAll();
 
-            if (orders == null || !orders.Any())
+            if (products == null || !products.Any())
             {
                 _logger.LogError("Couldn't find products in the database.");
             }
 
-            return _mapper.Map<IEnumerable<ProductDTO>>(orders);
+            var httpContext = _httpContextAccessor.HttpContext.Request;
+
+            var productsResult = _mapper.Map<IEnumerable<ProductDTO>>(products);
+            productsResult.Select(x => new ProductDTO
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price,
+                Description = x.Description,
+                FinalDate = x.FinalDate,
+                Weight = x.Weight,
+                ProductCategory = x.ProductCategory,
+                ImageName = x.ImageName,
+                ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", httpContext.Scheme, httpContext.Host, httpContext.PathBase, x.ImageName)
+            });
+
+            return productsResult;
         }
 
         public async Task<ProductDTO> GetById(int productId)
@@ -117,7 +160,35 @@ namespace Сafeteria.Infrastructure.Implementation
                 throw new NotFoundException(nameof(Product), productId.ToString());
             }
 
-            return _mapper.Map<ProductDTO>(product);
+            var httpContext = _httpContextAccessor.HttpContext.Request;
+
+            var result = _mapper.Map<ProductDTO>(product);
+
+            result.ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", httpContext.Scheme, httpContext.Host, httpContext.PathBase, product.ImageName);
+
+            return result;
+        }
+
+        private async Task<string> SaveImage(IFormFile formFile)
+        {
+            var imageName = new String(Path.GetFileNameWithoutExtension(formFile.FileName).ToArray());
+            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(formFile.FileName);
+            var imagePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Images", imageName);
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await formFile.CopyToAsync(fileStream);
+            }
+
+            return imageName;
+        }
+
+        private void DeleteImage(string imageName)
+        {
+            var imagePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Images", imageName);
+            if (File.Exists(imagePath))
+            {
+                File.Delete(imagePath);
+            }
         }
     }
 }

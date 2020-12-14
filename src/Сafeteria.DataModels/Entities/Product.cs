@@ -14,8 +14,8 @@ namespace Сafeteria.DataModels.Entities
         public DateTime? FinalDate { get; set; }
         public double Weight { get; set; }
         public ProductCategory ProductCategory { get; set; }
+        public string ImageName { get; set; }
         public List<ProductMenu> ProductMenus { get; set; }
         public List<ProductOrder> ProductOrders { get; set; }
-        //TODO add Url to store images
     }
 }

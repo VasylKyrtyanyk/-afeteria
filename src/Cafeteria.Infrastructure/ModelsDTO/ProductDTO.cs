@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Сafeteria.DataModels.Entities.ValueObjects;
 
 namespace Сafeteria.Infrastructure.ModelsDTO
@@ -12,5 +14,10 @@ namespace Сafeteria.Infrastructure.ModelsDTO
         public DateTime? FinalDate { get; set; }
         public double Weight { get; set; }
         public ProductCategory ProductCategory { get; set; }
+        public string ImageName { get; set; }
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
+        [NotMapped]
+        public string ImageSrc { get; set; }
     }
 }
